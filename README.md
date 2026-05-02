@@ -1,63 +1,48 @@
-# Practical lesson pz-MQTT  
-# Розгортання та налаштування MQTT-брокера  
+## MQTT Broker Setup (Mosquitto)
 
-> У цьому занятті студенти отримують практичні навички роботи з MQTT-брокером.  
-> Мета — навчитися розгортати брокер,та обмін повідомленнями за допомогою публікації/підписки.
+У межах завдання було розгорнуто MQTT-брокер за допомогою Docker, налаштовано базову конфігурацію та виконано тестування роботи протоколу MQTT через клієнт.
 
----
-
-## What need to do:
-* Розгорнути MQTT-брокер (Mosquitto / EMQX / HiveMQ)
-* Налаштувати базову конфігурацію сервісу  
-* Ознайомитись із принципами роботи MQTT-протоколу  
-* Виконати публікацію та підписку на MQTT-топіки через Postman або інший MQTT-клієнт  
-* Перевірити працездатність сервісу через інструменти тестування  
-
----
-
-## Acceptance criteria
-* Студент розгорнув MQTT-брокер або локально / у Docker  
-* Мінімальна конфігурація працює стабільно  
-* Студент розуміє основні поняття MQTT:
-  * Topic  
-  * Publish  
-  * Subscribe  
-  * QoS  
-* Виконано демонстрацію Publish/Subscribe через Postman або інший клієнт  
-* Усі команди, налаштування та тести описані в README.md  
-* Надано скріншоти або лог дії Publish/Subscribe (за потреби)  
-* Завдання оформлене відповідно до структури проєкту  
-
----
-
-## Getting started
-
-
-```bash
-docker compose up
-
-```
-
-```
+## Структура проєкту
+stt-pz-3/
 ├── stt-pz-3
 │   ├── broker
-│   │   ├── <mqtt>.conf     # конфігурація MQTT (якщо застосовується)
-│   │   ├── docker-compose.yml # варіант розгортання брокера
-│   ├── screenshots            # докази роботи Publish/Subscribe або Gateway routes
-│   ├── .editorconfig
-│   ├── .gitignore
+│   │   ├── <mqtt>.conf
+│   │   ├── docker-compose.yml
+│   ├── screenshots            
 │   ├── README.md
 └──
 
-```
-## Usfull links
+## Розгортання MQTT-брокера
+1. Перехід у директорію
+cd stt-pz-3/broker
+2. Запуск брокера
+docker-compose up -d
+3. Перевірка роботи контейнера
+docker ps
 
-[MQTT Essentials](https://www.hivemq.com/mqtt-essentials/)
+## Основні поняття MQTT
+Topic — канал для передачі повідомлень (наприклад: test/topic)
+Publish — відправка повідомлення в topic
+Subscribe — підписка на topic для отримання повідомлень
+QoS (Quality of Service) — рівень гарантії доставки:
+QoS 0 — доставка без гарантії
+QoS 1 — доставка з підтвердженням
+QoS 2 — гарантована одноразова доставка
 
-[EMQX Documentation](https://www.emqx.io/docs/en/latest/)
+## Підписка
+ docker exec -it mqtt-broker mosquitto_sub -t "test/topic"
 
-[Eclipse Mosquitto](https://mosquitto.org/)
+## Публікація
+ docker exec -it mqtt-broker mosquitto_pub -t "test/topic" -m "Hello MQTT!"
 
-[MQTT with Postman](https://learning.postman.com/docs/sending-mqtt-messages/intro-to-mqtt/)
+## Результат
+* MQTT-брокер успішно розгорнутий у Docker
+* Конфігурація працює стабільно
+* Реалізовано механізм Publish/Subscribe
+* Повідомлення коректно передаються між клієнтами
 
-[NGINX API Gateway](https://docs.nginx.com/nginx/admin-guide/api-gateway/)
+У папці screenshots/ додано:
+* підключення до брокера
+* підписка на topic
+* відправка повідомлення
+* отримання повідомлення
